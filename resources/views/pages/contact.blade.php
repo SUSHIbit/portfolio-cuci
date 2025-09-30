@@ -27,6 +27,7 @@
                     <a href="{{ route('home') }}" class="mobile-nav-link">HOME</a>
                     <a href="{{ route('about') }}" class="mobile-nav-link">ABOUT</a>
                     <a href="{{ route('projects') }}" class="mobile-nav-link">PROJECTS</a>
+                    <a href="{{ route('blog') }}" class="mobile-nav-link">BLOG</a>
                     <a href="{{ route('contact') }}" class="mobile-nav-link">CONTACT</a>
                 </div>
             </div>

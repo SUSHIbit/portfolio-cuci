@@ -27,6 +27,7 @@
                     <a href="{{ route('home') }}" class="mobile-nav-link">HOME</a>
                     <a href="{{ route('about') }}" class="mobile-nav-link">ABOUT</a>
                     <a href="{{ route('projects') }}" class="mobile-nav-link">PROJECTS</a>
+                    <a href="{{ route('blog') }}" class="mobile-nav-link">BLOG</a>
                     <a href="{{ route('contact') }}" class="mobile-nav-link">CONTACT</a>
                 </div>
             </div>
@@ -36,55 +37,65 @@
     <!-- Main Content -->
     <div class="pt-32">
         <!-- About Section -->
-        <section class="about-section max-w-4xl mx-auto px-10 sm:px-14 md:px-18 lg:px-12 py-12">
+        <section class="max-w-6xl mx-auto px-8 py-12 container-padding">
             <!-- Page Title -->
-            <h1 class="section-title text-5xl font-bold text-center-mobile" style="margin-bottom: 6rem;">About Me.</h1>
+            <h1 class="section-title text-5xl font-bold text-center-mobile" style="margin-bottom: 4rem;">About Me.</h1>
 
             <!-- Experience Sections -->
-            @if($experienceSections->count() > 0)
-                @foreach($experienceSections as $experience)
-                    <div class="timeline-item" style="margin-bottom: 6rem;">
-                        <div class="timeline-header flex items-center justify-between mb-6">
-                            <h2 class="text-2xl font-semibold">{{ $experience->field }}</h2>
-                            <span class="timeline-date text-tertiary text-sm">{{ $experience->year }}</span>
-                        </div>
-                        <div class="space-y-8">
-                            <div>
-                                <h3 class="text-lg font-medium text-primary mb-2">{{ $experience->role }}</h3>
-                                <p class="text-secondary text-sm leading-relaxed">
-                                    {{ $experience->description }}
-                                </p>
+            <div class="space-y-6 mb-16">
+                @if($experienceSections->count() > 0)
+                    @foreach($experienceSections as $experience)
+                        <div class="rounded-lg p-6 transition-transform duration-300 hover:scale-[1.02]" style="background: var(--admin-bg-secondary); border: 1px solid var(--admin-border-primary);">
+                            <div class="flex justify-between items-start mb-3">
+                                <h2 class="text-2xl font-semibold" style="color: var(--admin-text-primary);">
+                                    {{ $experience->field }}
+                                </h2>
+                                <span class="text-sm whitespace-nowrap ml-4" style="color: var(--admin-text-secondary);">
+                                    {{ $experience->year }}
+                                </span>
                             </div>
+                            <h3 class="text-base font-medium mb-2" style="color: var(--admin-text-secondary);">
+                                {{ $experience->role }}
+                            </h3>
+                            <p class="text-base leading-relaxed" style="color: var(--admin-text-secondary);">
+                                {{ $experience->description }}
+                            </p>
                         </div>
-                    </div>
-                @endforeach
-            @endif
+                    @endforeach
+                @endif
 
-            <!-- Dynamic Sections -->
-            @if($dynamicSections->count() > 0)
-                @foreach($dynamicSections as $section)
-                    <div style="margin-bottom: 6rem;">
-                        <h2 class="text-2xl font-semibold mb-6">{{ $section->section_name }}.</h2>
-                        <div class="space-y-6">
-                            @foreach($section->items as $item)
-                                <div class="flex items-start justify-between">
-                                    <div class="flex-1">
-                                        <h3 class="text-lg font-medium text-primary mb-2">{{ $item->title }}</h3>
-                                        <p class="text-secondary text-sm leading-relaxed">
+                <!-- Dynamic Sections -->
+                @if($dynamicSections->count() > 0)
+                    @foreach($dynamicSections as $section)
+                        <div class="mt-12">
+                            <h2 class="text-3xl font-semibold mb-6" style="color: var(--admin-text-primary);">{{ $section->section_name }}.</h2>
+                            <div class="space-y-6">
+                                @foreach($section->items as $item)
+                                    <div class="rounded-lg p-6 transition-transform duration-300 hover:scale-[1.02]" style="background: var(--admin-bg-secondary); border: 1px solid var(--admin-border-primary);">
+                                        <div class="flex justify-between items-start mb-3">
+                                            <h3 class="text-xl font-semibold" style="color: var(--admin-text-primary);">
+                                                {{ $item->title }}
+                                            </h3>
+                                            @if($item->link_url)
+                                                <a href="{{ $item->link_url }}" class="text-sm whitespace-nowrap ml-4 hover:underline" style="color: var(--admin-text-secondary);" target="_blank" rel="noopener noreferrer">
+                                                    {{ $item->link_text ?? 'Visit' }}
+                                                </a>
+                                            @elseif($item->year)
+                                                <span class="text-sm whitespace-nowrap ml-4" style="color: var(--admin-text-secondary);">
+                                                    {{ $item->year }}
+                                                </span>
+                                            @endif
+                                        </div>
+                                        <p class="text-base leading-relaxed" style="color: var(--admin-text-secondary);">
                                             {{ $item->description }}
                                         </p>
                                     </div>
-                                    @if($item->link_url)
-                                        <a href="{{ $item->link_url }}" class="text-tertiary hover:text-primary text-xs ml-8" target="_blank" rel="noopener noreferrer">{{ $item->link_text ?? 'Visit' }}</a>
-                                    @elseif($item->year)
-                                        <span class="text-tertiary text-xs ml-8">{{ $item->year }}</span>
-                                    @endif
-                                </div>
-                            @endforeach
+                                @endforeach
+                            </div>
                         </div>
-                    </div>
-                @endforeach
-            @endif
+                    @endforeach
+                @endif
+            </div>
 
             <!-- Empty State Message -->
             @if($experienceSections->count() == 0 && $dynamicSections->count() == 0)

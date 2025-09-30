@@ -6,6 +6,9 @@
     <title>@yield('title', 'M. Arief Asyraf Portfolio')</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/nigiri.png') }}">
+
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,6 +32,7 @@
             <div class="flex items-center space-x-8">
                 <a href="{{ route('about') }}" class="text-secondary hover:opacity-80 transition-all duration-300">About</a>
                 <a href="{{ route('projects') }}" class="text-secondary hover:opacity-80 transition-all duration-300">Projects</a>
+                <a href="{{ route('blog') }}" class="text-secondary hover:opacity-80 transition-all duration-300">Blog</a>
                 <a href="{{ route('contact') }}" class="text-secondary hover:opacity-80 transition-all duration-300 border border-primary px-4 py-2 rounded-full">Contact</a>
             </div>
 
@@ -61,6 +65,7 @@
                 <div class="flex flex-col space-y-4">
                     <a href="{{ route('about') }}" class="text-secondary hover:opacity-80 transition-all duration-300">About</a>
                     <a href="{{ route('projects') }}" class="text-secondary hover:opacity-80 transition-all duration-300">Projects</a>
+                    <a href="{{ route('blog') }}" class="text-secondary hover:opacity-80 transition-all duration-300">Blog</a>
                     <a href="{{ route('contact') }}" class="text-secondary hover:opacity-80 transition-all duration-300">Contact</a>
 
                     <!-- Mobile Theme Toggle -->

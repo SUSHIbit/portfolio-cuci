@@ -27,6 +27,7 @@
                     <a href="{{ route('home') }}" class="mobile-nav-link">HOME</a>
                     <a href="{{ route('about') }}" class="mobile-nav-link">ABOUT</a>
                     <a href="{{ route('projects') }}" class="mobile-nav-link">PROJECTS</a>
+                    <a href="{{ route('blog') }}" class="mobile-nav-link">BLOG</a>
                     <a href="{{ route('contact') }}" class="mobile-nav-link">CONTACT</a>
                 </div>
             </div>
@@ -38,7 +39,7 @@
         <!-- Projects Section -->
         <section class="max-w-6xl mx-auto px-8 py-12 container-padding">
             <!-- Page Title -->
-            <h1 class="section-title text-5xl font-bold mb-16 text-center-mobile">Projects.</h1>
+            <h1 class="section-title text-5xl font-bold text-center-mobile" style="margin-bottom: 4rem;">Projects.</h1>
 
             <!-- Projects Grid -->
             <div class="grid-projects grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
@@ -189,33 +190,14 @@
         </div>
     </div>
 
+    <!-- Projects Data for JavaScript -->
+    <script id="projects-data" type="application/json">
+        {!! json_encode($projectsData ?? [], JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+
     <script>
         // Project data for modal functionality
-        const projectsData = {
-            @if(isset($projects) && $projects->count() > 0)
-                @foreach($projects as $project)
-                    'project{{ $project->id }}': {
-                        id: {{ $project->id }},
-                        title: @json($project->title),
-                        shortDescription: @json($project->short_description),
-                        detailedDescription: @json($project->detailed_description),
-                        projectUrl: @json($project->project_url),
-                        githubUrl: @json($project->github_url),
-                        technologies: [
-                            @foreach($project->technologies as $tech)
-                                @json($tech->technology_name)@if(!$loop->last),@endif
-                            @endforeach
-                        ],
-                        primaryImage: @json($project->primaryImage ? asset('storage/' . $project->primaryImage->image_path) : null),
-                        images: [
-                            @foreach($project->images as $image)
-                                @json(asset('storage/' . $image->image_path))@if(!$loop->last),@endif
-                            @endforeach
-                        ]
-                    }@if(!$loop->last),@endif
-                @endforeach
-            @endif
-        };
+        const projectsData = JSON.parse(document.getElementById('projects-data').textContent);
 
         function openProjectModal(projectId) {
             const modal = document.getElementById('projectModal');

@@ -7,6 +7,9 @@
 
     <title>@yield('title', 'Admin Dashboard') - {{ config('app.name', 'Portfolio Admin') }}</title>
 
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="{{ asset('assets/images/nigiri.png') }}">
+
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -294,6 +297,16 @@
                 <a href="{{ route('admin.projects.index') }}" class="admin-nav-link flex items-center {{ request()->routeIs('admin.projects.*') ? 'active' : '' }}">
                     <i class="fas fa-folder mr-3"></i>
                     Projects
+                </a>
+
+                <a href="{{ route('admin.blog-categories.index') }}" class="admin-nav-link flex items-center {{ request()->routeIs('admin.blog-categories.*') ? 'active' : '' }}">
+                    <i class="fas fa-tags mr-3"></i>
+                    Blog Categories
+                </a>
+
+                <a href="{{ route('admin.blogs.index') }}" class="admin-nav-link flex items-center {{ request()->routeIs('admin.blogs.*') ? 'active' : '' }}">
+                    <i class="fas fa-blog mr-3"></i>
+                    Blog Posts
                 </a>
 
                 <a href="{{ route('admin.social-links.index') }}" class="admin-nav-link flex items-center {{ request()->routeIs('admin.social-links.*') ? 'active' : '' }}">
