@@ -29,9 +29,9 @@ class ProjectController extends Controller
                 'projectUrl' => $project->project_url,
                 'githubUrl' => $project->github_url,
                 'technologies' => $project->technologies->pluck('technology_name')->toArray(),
-                'primaryImage' => $project->primaryImage ? asset('storage/' . $project->primaryImage->image_path) : null,
+                'primaryImage' => $project->primaryImage ? asset($project->primaryImage->image_path) : null,
                 'images' => $project->images->map(function($image) {
-                    return asset('storage/' . $image->image_path);
+                    return asset($image->image_path);
                 })->toArray()
             ]];
         });

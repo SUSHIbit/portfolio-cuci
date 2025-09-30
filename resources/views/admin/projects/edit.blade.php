@@ -140,7 +140,7 @@
                     <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                         @foreach($project->images as $image)
                             <div class="relative image-container" id="image-{{ $image->id }}" style="cursor: pointer;">
-                                <img src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $image->alt_text }}" class="w-full h-32 object-cover rounded-lg" style="border: 1px solid var(--admin-border-primary); display: block;">
+                                <img src="{{ asset($image->image_path) }}" alt="{{ $image->alt_text }}" class="w-full h-32 object-cover rounded-lg" style="border: 1px solid var(--admin-border-primary); display: block;">
                                 @if($image->is_primary)
                                     <div class="absolute top-2 left-2 text-white px-2 py-1 text-xs rounded" style="background-color: #f59e0b; z-index: 5;">Primary</div>
                                 @endif
@@ -152,7 +152,7 @@
                                 ">
                                     <button
                                         type="button"
-                                        onclick="deleteImage({{ $image->id }})"
+                                        onclick="deleteImage(this.dataset.imageId)"
                                         data-image-id="{{ $image->id }}"
                                         class="delete-image-btn"
                                         style="

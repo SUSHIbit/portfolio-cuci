@@ -22,7 +22,7 @@
                 <div class="admin-card rounded-lg hover:shadow-lg transition-shadow">
                     @if($project->images->count() > 0 && $project->images->where('is_primary', true)->first())
                         <div class="aspect-video rounded-t-lg overflow-hidden" style="background-color: var(--admin-bg-tertiary);">
-                            <img src="{{ asset('storage/' . $project->images->where('is_primary', true)->first()->image_path) }}"
+                            <img src="{{ asset($project->images->where('is_primary', true)->first()->image_path) }}"
                                  alt="{{ $project->title }}"
                                  class="w-full h-full object-cover">
                         </div>

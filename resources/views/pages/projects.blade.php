@@ -50,7 +50,7 @@
                                 @if($project->primaryImage)
                                     <div class="relative h-64 bg-gray-900">
                                         <img
-                                            src="{{ asset('storage/' . $project->primaryImage->image_path) }}"
+                                            src="{{ asset($project->primaryImage->image_path) }}"
                                             alt="{{ $project->title }}"
                                             class="w-full h-full object-cover"
                                             loading="lazy"

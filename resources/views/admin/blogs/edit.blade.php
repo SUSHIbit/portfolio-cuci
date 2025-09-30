@@ -98,7 +98,7 @@
                     </label>
                     @if($blog->featured_image)
                         <div class="mb-2">
-                            <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="Current featured image" class="h-24 w-auto rounded-lg border" style="border-color: var(--admin-border-primary);">
+                            <img src="{{ asset($blog->featured_image) }}" alt="Current featured image" class="h-24 w-auto rounded-lg border" style="border-color: var(--admin-border-primary);">
                             <p class="text-xs mt-1" style="color: var(--admin-text-secondary);">Current image (upload new to replace)</p>
                         </div>
                     @endif
@@ -141,18 +141,22 @@
     </form>
 </div>
 
+@php
+    $existingBlocksData = old('content_blocks', $blog->contentBlocks->map(function($block) {
+        return [
+            'id' => $block->id,
+            'type' => $block->type,
+            'content' => $block->content,
+            'sort_order' => $block->sort_order
+        ];
+    })->sortBy('sort_order')->values());
+@endphp
+
 <script>
 let blockIndex = 0;
 
 // Existing content blocks data from the server
-const existingBlocks = @json(old('content_blocks', $blog->contentBlocks->map(function($block) {
-    return [
-        'id' => $block->id,
-        'type' => $block->type,
-        'content' => $block->content,
-        'order' => $block->order
-    ];
-})->sortBy('order')->values()));
+const existingBlocks = JSON.parse('<?php echo addslashes(json_encode($existingBlocksData)); ?>');
 
 function addParagraphBlock(content = '', existingBlockId = null) {
     const container = document.getElementById('contentBlocks');
@@ -199,7 +203,7 @@ function addImageBlock(existingImagePath = null, existingBlockId = null) {
 
     const existingImageHtml = existingImagePath ? `
         <div class="mb-3">
-            <img src="/storage/${existingImagePath}" alt="Current image" class="h-32 w-auto rounded-lg border mb-2" style="border-color: var(--admin-border-primary);">
+            <img src="/${existingImagePath}" alt="Current image" class="h-32 w-auto rounded-lg border mb-2" style="border-color: var(--admin-border-primary);">
             <p class="text-xs" style="color: var(--admin-text-secondary);">Current image (upload new to replace)</p>
             <input type="hidden" name="content_blocks[${blockIndex}][existing_image]" value="${existingImagePath}">
         </div>

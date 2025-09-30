@@ -57,11 +57,11 @@ class ProjectController extends Controller
         if ($request->hasFile('images')) {
             foreach ($request->file('images') as $index => $image) {
                 $filename = time() . '_' . $index . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('projects', $filename, 'public');
+                $image->move(public_path('uploads/projects'), $filename);
 
                 ProjectImage::create([
                     'project_id' => $project->id,
-                    'image_path' => $path,
+                    'image_path' => 'uploads/projects/' . $filename,
                     'alt_text' => $request->title,
                     'is_primary' => $index === 0,
                     'sort_order' => $index + 1,
@@ -126,11 +126,11 @@ class ProjectController extends Controller
 
             foreach ($request->file('new_images') as $index => $image) {
                 $filename = time() . '_' . ($existingImagesCount + $index) . '_' . Str::random(10) . '.' . $image->getClientOriginalExtension();
-                $path = $image->storeAs('projects', $filename, 'public');
+                $image->move(public_path('uploads/projects'), $filename);
 
                 ProjectImage::create([
                     'project_id' => $project->id,
-                    'image_path' => $path,
+                    'image_path' => 'uploads/projects/' . $filename,
                     'alt_text' => $request->title,
                     'is_primary' => $existingImagesCount === 0 && $index === 0,
                     'sort_order' => $existingImagesCount + $index + 1,
@@ -160,7 +160,9 @@ class ProjectController extends Controller
     {
         // Delete associated images from storage
         foreach ($project->images as $image) {
-            Storage::disk('public')->delete($image->image_path);
+            if (file_exists(public_path($image->image_path))) {
+                unlink(public_path($image->image_path));
+            }
         }
 
         $project->delete();
@@ -202,8 +204,8 @@ class ProjectController extends Controller
             }
 
             // Delete the file from storage
-            if (Storage::disk('public')->exists($image->image_path)) {
-                Storage::disk('public')->delete($image->image_path);
+            if (file_exists(public_path($image->image_path))) {
+                unlink(public_path($image->image_path));
                 \Log::info('File deleted from storage', ['path' => $image->image_path]);
             } else {
                 \Log::warning('File not found in storage', ['path' => $image->image_path]);

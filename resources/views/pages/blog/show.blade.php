@@ -67,7 +67,7 @@
             <!-- Featured Image -->
             @if($blog->featured_image)
                 <div class="mb-8 rounded-lg overflow-hidden">
-                    <img src="{{ asset('storage/' . $blog->featured_image) }}" alt="{{ $blog->title }}" class="w-full h-auto object-cover">
+                    <img src="{{ asset($blog->featured_image) }}" alt="{{ $blog->title }}" class="w-full h-auto object-cover">
                 </div>
             @endif
 
@@ -82,7 +82,7 @@
                         </div>
                     @elseif($block->type === 'image')
                         <div class="my-8 rounded-lg overflow-hidden">
-                            <img src="{{ asset('storage/' . $block->content) }}" alt="Blog content image" class="w-full h-auto object-cover">
+                            <img src="{{ asset($block->content) }}" alt="Blog content image" class="w-full h-auto object-cover">
                         </div>
                     @endif
                 @endforeach

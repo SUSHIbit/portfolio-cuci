@@ -56,8 +56,8 @@ class BlogController extends Controller
         // Handle featured image
         if ($request->hasFile('featured_image')) {
             $filename = time() . '_' . Str::random(10) . '.' . $request->file('featured_image')->getClientOriginalExtension();
-            $path = $request->file('featured_image')->storeAs('blogs/featured', $filename, 'public');
-            $blog->update(['featured_image' => $path]);
+            $request->file('featured_image')->move(public_path('uploads/blogs/featured'), $filename);
+            $blog->update(['featured_image' => 'uploads/blogs/featured/' . $filename]);
         }
 
         // Handle content blocks
@@ -115,19 +115,19 @@ class BlogController extends Controller
         // Handle featured image update
         if ($request->hasFile('featured_image')) {
             // Delete old featured image
-            if ($blog->featured_image) {
-                Storage::disk('public')->delete($blog->featured_image);
+            if ($blog->featured_image && file_exists(public_path($blog->featured_image))) {
+                unlink(public_path($blog->featured_image));
             }
 
             $filename = time() . '_' . Str::random(10) . '.' . $request->file('featured_image')->getClientOriginalExtension();
-            $path = $request->file('featured_image')->storeAs('blogs/featured', $filename, 'public');
-            $blog->update(['featured_image' => $path]);
+            $request->file('featured_image')->move(public_path('uploads/blogs/featured'), $filename);
+            $blog->update(['featured_image' => 'uploads/blogs/featured/' . $filename]);
         }
 
         // Delete old content blocks and their images
         foreach ($blog->contentBlocks as $oldBlock) {
-            if ($oldBlock->type === 'image' && $oldBlock->content) {
-                Storage::disk('public')->delete($oldBlock->content);
+            if ($oldBlock->type === 'image' && $oldBlock->content && file_exists(public_path($oldBlock->content))) {
+                unlink(public_path($oldBlock->content));
             }
         }
         $blog->contentBlocks()->delete();
@@ -139,7 +139,8 @@ class BlogController extends Controller
             // If it's an image block and has a file
             if ($block['type'] === 'image' && $request->hasFile("content_blocks.{$index}.content")) {
                 $filename = time() . '_' . $index . '_' . Str::random(10) . '.' . $request->file("content_blocks.{$index}.content")->getClientOriginalExtension();
-                $content = $request->file("content_blocks.{$index}.content")->storeAs('blogs/content', $filename, 'public');
+                $request->file("content_blocks.{$index}.content")->move(public_path('uploads/blogs/content'), $filename);
+                $content = 'uploads/blogs/content/' . $filename;
             }
 
             BlogContentBlock::create([
@@ -157,14 +158,14 @@ class BlogController extends Controller
     public function destroy(Blog $blog)
     {
         // Delete featured image
-        if ($blog->featured_image) {
-            Storage::disk('public')->delete($blog->featured_image);
+        if ($blog->featured_image && file_exists(public_path($blog->featured_image))) {
+            unlink(public_path($blog->featured_image));
         }
 
         // Delete content block images
         foreach ($blog->contentBlocks as $block) {
-            if ($block->type === 'image' && $block->content) {
-                Storage::disk('public')->delete($block->content);
+            if ($block->type === 'image' && $block->content && file_exists(public_path($block->content))) {
+                unlink(public_path($block->content));
             }
         }
 

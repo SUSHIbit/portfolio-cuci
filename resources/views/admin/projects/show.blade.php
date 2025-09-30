@@ -108,11 +108,11 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     @foreach($project->images as $image)
                         <div class="relative group">
-                            <img src="{{ asset('storage/' . $image->image_path) }}"
+                            <img src="{{ asset($image->image_path) }}"
                                  alt="{{ $image->alt_text }}"
                                  class="w-full h-64 object-cover rounded-lg cursor-pointer"
                                  style="border: 1px solid var(--admin-border-primary);"
-                                 onclick="openImageModal('{{ asset('storage/' . $image->image_path) }}', '{{ $image->alt_text }}')">
+                                 onclick="openImageModal('{{ asset($image->image_path) }}', '{{ $image->alt_text }}')">
                             @if($image->is_primary)
                                 <div class="absolute top-3 left-3 bg-yellow-500 text-white px-2 py-1 text-xs rounded">Primary</div>
                             @endif
